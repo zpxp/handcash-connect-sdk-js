@@ -9,12 +9,18 @@ class HandCashCloudAccount {
       this.profile = profile;
    }
 
-   static fromAuthToken(authToken, appSecret, baseEndpoint) {
+   static fromCredentials({
+      authToken,
+      appSecret,
+      baseApiEndpoint,
+   }) {
       const handCashConnectService = new HandCashConnectService(
          new HttpRequestFactory(
-            authToken,
-            baseEndpoint,
-            appSecret,
+            {
+               authToken,
+               appSecret,
+               baseApiEndpoint,
+            },
          ),
       );
       const wallet = new Wallet(handCashConnectService);

@@ -4,13 +4,17 @@ module.exports = {
       'es6': true,
       'mocha': true,
    },
-   'extends': 'airbnb-base',
-   'parser': '@babel/eslint-parser',
+   'parser': '@typescript-eslint/parser',
+   'extends': 'airbnb-typescript/base',
+   'ignorePatterns': ['**/.eslintrc.js', "types/**/*.d.ts"],
    'parserOptions': {
+      'requireConfigFile': false,
       'sourceType': 'module',
       'ecmaVersion': 2020,
       'allowImportExportEverywhere': false,
       'codeFrame': true,
+      'tsconfigRootDir': __dirname,
+      'project': './tsconfig.json',
       'ecmaFeatures': {
          'jsx': true,
          'modules': true,
@@ -28,14 +32,18 @@ module.exports = {
       'no-underscore-dangle': 'off',
       'max-len': ['warn', { 'code': 120 }],
       'indent': ['warn', 3],
+      '@typescript-eslint/indent': ['warn', 3],
       'no-trailing-spaces': ['error', { 'skipBlankLines': true }],
+      'no-useless-constructor': 'off',
+      '@typescript-eslint/no-useless-constructor': 'error',
    },
    'plugins': [
       'mocha',
+      'import',
    ],
    'overrides': [
       {
-         'files': ['*.api-definition.js', '*.test.js'],
+         'files': ['*.api-definition.js', '*.test.js', '*.ts'],
          'rules': {
             'import/no-extraneous-dependencies': ['error', { 'devDependencies': true }],
             'no-unused-expressions': 'off',

@@ -2,10 +2,10 @@ const HandCashCloudAccount = require('./handcash_cloud_account');
 const Environments = require('./environments');
 
 class HandCashConnect {
-   constructor(params) {
-      this.appId = params.appId;
-      this.appSecret = params.appSecret;
-      this.env = params.env || Environments.prod;
+   constructor({ appId, appSecret, env }) {
+      this.appId = appId;
+      this.appSecret = appSecret;
+      this.env = env || Environments.prod;
    }
 
    getRedirectionUrl(queryParameters = {}) {
@@ -22,7 +22,11 @@ class HandCashConnect {
    }
 
    getAccountFromAuthToken(authToken) {
-      return HandCashCloudAccount.fromAuthToken(authToken, this.appSecret, this.env.apiEndpoint);
+      return HandCashCloudAccount.fromCredentials({
+         authToken,
+         appSecret: this.appSecret,
+         baseApiEndpoint: this.env.apiEndpoint,
+      });
    }
 }
 

@@ -1,6 +1,7 @@
 const HandCashConnect = require('./handcash_connect');
 const HandCashPurse = require('./run_extension/handcash_purse');
 const HandCashOwner = require('./run_extension/handcash_owner');
+const HandCashRunBuilder = require('./run_extension/handcash_run_builder');
 const HandCashConnectApiError = require('./api/handcash_connect_api_error');
 const Environments = require('./environments');
 
@@ -20,4 +21,5 @@ sdk.HandCashConnectApiError = HandCashConnectApiError;
 sdk.Permissions = permissions;
 sdk.HandCashPurse = HandCashPurse;
 sdk.HandCashOwner = HandCashOwner;
+sdk.HandCashRunBuilder = HandCashRunBuilder;
 sdk.Environments = Environments;

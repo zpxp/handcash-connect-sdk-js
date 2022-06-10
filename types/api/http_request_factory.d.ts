@@ -3,7 +3,11 @@ declare class HttpRequestFactory {
     static _getEncodedEndpoint(endpoint: any, queryParameters: any): any;
     static _getRequestSignature(method: any, endpoint: any, serializedBody: any, timestamp: any, privateKey: any): any;
     static _getRequestSignaturePayload(method: any, endpoint: any, serializedBody: any, timestamp: any): string;
-    constructor(authToken: any, baseApiEndpoint: any, appSecret: any);
+    constructor({ authToken, appSecret, baseApiEndpoint }: {
+        authToken: any;
+        appSecret: any;
+        baseApiEndpoint: any;
+    });
     authToken: any;
     appSecret: any;
     baseApiEndpoint: any;
@@ -176,7 +180,7 @@ declare class HttpRequestFactory {
         data: string;
         responseType: string;
     };
-    getPurseBroadcastRequest(rawTransaction: any): {
+    getPurseBroadcastP2PRequest(rawTransaction: any, p2pTokens: any): {
         baseURL: any;
         url: any;
         method: any;
@@ -189,7 +193,7 @@ declare class HttpRequestFactory {
         data: string;
         responseType: string;
     };
-    getOwnerNextAddressRequest(alias: any): {
+    getOwnerNextP2PAddressRequest(): {
         baseURL: any;
         url: any;
         method: any;
@@ -202,7 +206,7 @@ declare class HttpRequestFactory {
         data: string;
         responseType: string;
     };
-    getOwnerSignRequest(rawTransaction: any, inputParents: any, locks: any): {
+    getOwnerSignP2PRequest(rawTransaction: any, inputParents: any, locks: any, p2pTokens: any): {
         baseURL: any;
         url: any;
         method: any;

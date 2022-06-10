@@ -68,18 +68,19 @@ class HandCashConnectService {
       return HandCashConnectService.handleRequest(requestParameters);
    }
 
-   async purseBroadcast(rawTransaction) {
-      const requestParameters = this.httpRequestFactory.getPurseBroadcastRequest(rawTransaction);
+   async purseBroadcastP2P(rawTransaction, p2pTokens) {
+      const requestParameters = this.httpRequestFactory.getPurseBroadcastP2PRequest(rawTransaction, p2pTokens);
       return HandCashConnectService.handleRequest(requestParameters);
    }
 
-   async ownerNextAddress(alias) {
-      const requestParameters = this.httpRequestFactory.getOwnerNextAddressRequest(alias);
+   async ownerNextP2PAddress() {
+      const requestParameters = this.httpRequestFactory.getOwnerNextP2PAddressRequest();
       return HandCashConnectService.handleRequest(requestParameters);
    }
 
-   async ownerSign(rawTransaction, inputParents, locks) {
-      const requestParameters = this.httpRequestFactory.getOwnerSignRequest(rawTransaction, inputParents, locks);
+   async ownerSignP2P(rawTransaction, inputParents, locks, p2pTokens) {
+      const requestParameters = this.httpRequestFactory.getOwnerSignP2PRequest(rawTransaction,
+         inputParents, locks, p2pTokens);
       return HandCashConnectService.handleRequest(requestParameters);
    }
 

@@ -16,8 +16,8 @@ declare class HandCashConnectService {
     getPayment(transactionId: any): Promise<any>;
     getExchangeRate(currencyCode: any): Promise<any>;
     pursePay(rawTransaction: any, parents: any): Promise<any>;
-    purseBroadcast(rawTransaction: any): Promise<any>;
-    ownerNextAddress(alias: any): Promise<any>;
-    ownerSign(rawTransaction: any, inputParents: any, locks: any): Promise<any>;
+    purseBroadcastP2P(rawTransaction: any, p2pTokens: any): Promise<any>;
+    ownerNextP2PAddress(): Promise<any>;
+    ownerSignP2P(rawTransaction: any, inputParents: any, locks: any, p2pTokens: any): Promise<any>;
     getNftLocations(): Promise<any>;
 }

@@ -1,31 +1,13 @@
-const HandCashConnectService = require('../api/handcash_connect_service');
-const HttpRequestFactory = require('../api/http_request_factory');
-const Environments = require('../environments');
-
 module.exports = class HandCashPurse {
-   constructor(handCashConnectService) {
-      this.handCashConnectService = handCashConnectService;
-   }
-
-   static fromAuthToken(authToken,
-      /* istanbul ignore next */ env = Environments.prod,
-      /* istanbul ignore next */ appSecret = '') {
-      const handCashConnectService = new HandCashConnectService(
-         new HttpRequestFactory(
-            authToken,
-            env.apiEndpoint,
-            appSecret,
-         ),
-      );
-      return new HandCashPurse(handCashConnectService);
+   constructor(handCashApiP2PInterceptor) {
+      this.handCashApiP2PInterceptor = handCashApiP2PInterceptor;
    }
 
    async pay(rawTx, parents) {
-      const res = await this.handCashConnectService.pursePay(rawTx, parents);
-      return res.partiallySignedTx;
+      return this.handCashApiP2PInterceptor.pay(rawTx, parents);
    }
 
    async broadcast(rawTx) {
-      await this.handCashConnectService.purseBroadcast(rawTx);
+      return this.handCashApiP2PInterceptor.broadcast(rawTx);
    }
 };
