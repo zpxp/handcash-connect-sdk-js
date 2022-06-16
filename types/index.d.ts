@@ -1,5 +1,3 @@
-import Run from 'run-sdk';
-
 export type Environment = {
    apiEndpoint: string;
    clientUrl: string;
@@ -45,40 +43,6 @@ export class HandCashConnect {
    getChangeSpendLimitsUrl(redirectUrl?: string | boolean): string;
 
    getAccountFromAuthToken(authToken: string): HandCashCloudAccount;
-}
-
-export class HandCashApiP2PInterceptor {
-   handCashConnectService: HandCashConnectService;
-
-   constructor(handCashConnectService: HandCashConnectService);
-
-   fromCredentials(credentials: ApiCredentials);
-
-   pay(rawTx: string, parents: any[]): Promise<any>;
-
-   broadcast(rawTx: string): Promise<any>;
-}
-
-export class HandCashPurse {
-   handCashApiP2PInterceptor: HandCashApiP2PInterceptor;
-
-   constructor(handCashApiP2PInterceptor: HandCashApiP2PInterceptor);
-
-   pay(rawTx: string, parents: any[]): Promise<any>;
-
-   broadcast(rawTx: string): Promise<any>;
-}
-
-export class HandCashOwner {
-   handCashApiP2PInterceptor: HandCashApiP2PInterceptor;
-
-   constructor(handCashApiP2PInterceptor: HandCashApiP2PInterceptor);
-
-   nextOwner(): Promise<string>;
-
-   sign(rawTransaction: string, inputParents: any[], locks: any[]): Promise<string>;
-
-   getNftLocations(): Promise<string[]>;
 }
 
 export class HandCashConnectApiError extends Error {
@@ -528,18 +492,42 @@ export class HandCashCloudAccount {
    static fromCredentials(credentials: ApiCredentials): HandCashCloudAccount;
 }
 
-export class HandCashRunBuilder {
-   owner: HandCashOwner;
+export class HandCashApiP2PInterceptor {
+   p2pReferences: object;
 
-   purse: HandCashPurse;
+   constructor();
 
-   customRunComponents: object;
+   nextOwner(handCashConnectService: HandCashConnectService): Promise<string>;
 
-   constructor(owner: HandCashOwner, purse: HandCashPurse);
+   sign(handCashConnectService: HandCashConnectService, rawTransaction: string, inputParents: any[], locks: any[]): Promise<string>;
 
-   static fromCredentials(credentials: AccountCredentials): HandCashRunBuilder;
+   broadcast(handCashConnectService: HandCashConnectService, rawTx: string): Promise<any>;
+}
 
-   setCustomRunComponents(components: object): HandCashRunBuilder;
+export class HandCashPurse {
+   handCashConnectService: HandCashConnectService;
+   handCashApiP2PInterceptor: HandCashApiP2PInterceptor;
 
-   build(): Run;
+   constructor(handCashConnectService: HandCashConnectService, handCashApiP2PInterceptor: HandCashApiP2PInterceptor);
+
+   static fromCredentials(credentials: AccountCredentials): HandCashPurse;
+
+   pay(rawTx: string, parents: any[]): Promise<any>;
+
+   broadcast(rawTx: string): Promise<any>;
+}
+
+export class HandCashOwner {
+   handCashConnectService: HandCashConnectService;
+   handCashApiP2PInterceptor: HandCashApiP2PInterceptor;
+
+   constructor(handCashConnectService: HandCashConnectService, handCashApiP2PInterceptor: HandCashApiP2PInterceptor);
+
+   static fromCredentials(credentials: AccountCredentials): HandCashOwner;
+
+   nextOwner(): Promise<string>;
+
+   sign(rawTransaction: string, inputParents: any[], locks: any[]): Promise<string>;
+
+   getNftLocations(): Promise<string[]>;
 }

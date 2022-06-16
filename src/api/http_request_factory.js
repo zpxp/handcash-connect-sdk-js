@@ -10,7 +10,7 @@ const walletEndpoint = '/v1/connect/wallet';
 const runExtensionEndpoint = '/v1/connect/runExtension';
 
 class HttpRequestFactory {
-   constructor(authToken, baseApiEndpoint, appSecret) {
+   constructor({ authToken, appSecret, baseApiEndpoint }) {
       if (!authToken) {
          throw Error('Missing authToken');
       }
@@ -178,28 +178,26 @@ class HttpRequestFactory {
       );
    }
 
-   getPurseBroadcastRequest(rawTransaction) {
+   getPurseBroadcastP2PRequest(rawTransaction, p2pTokens) {
       return this._getSignedRequest(
          'POST',
          `${runExtensionEndpoint}/purse/broadcast`,
          {
             rawTransaction,
+            p2pTokens,
          },
       );
    }
 
-   getOwnerNextAddressRequest(alias) {
+   getOwnerNextP2PAddressRequest() {
       return this._getSignedRequest(
          'GET',
          `${runExtensionEndpoint}/owner/next`,
          {},
-         {
-            alias,
-         },
       );
    }
 
-   getOwnerSignRequest(rawTransaction, inputParents, locks) {
+   getOwnerSignP2PRequest(rawTransaction, inputParents, locks, p2pTokens) {
       return this._getSignedRequest(
          'POST',
          `${runExtensionEndpoint}/owner/sign`,
@@ -207,6 +205,7 @@ class HttpRequestFactory {
             rawTransaction,
             inputParents,
             locks,
+            p2pTokens,
          },
       );
    }

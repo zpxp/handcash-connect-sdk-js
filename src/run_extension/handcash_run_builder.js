@@ -38,10 +38,12 @@ module.exports = class HandCashRunBuilder {
    }
 
    build() {
-      return new Run({
+      const run = new Run({
          owner: this.owner,
          purse: this.purse,
          ...this.customRunComponents,
       });
+      run.activate();
+      return run;
    }
 };
