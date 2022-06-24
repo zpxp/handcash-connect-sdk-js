@@ -3,7 +3,7 @@ const {
    PrivateKey,
    Networks,
    crypto,
-} = require('bsv');
+} = require('bsv_legacy');
 
 const profileEndpoint = '/v1/connect/profile';
 const walletEndpoint = '/v1/connect/wallet';

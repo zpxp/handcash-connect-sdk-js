@@ -1,6 +1,6 @@
 {
-  "name": "@handcash/handcash-connect",
-  "version": "0.4.3",
+  "name": "@zpxp/handcash-connect",
+  "version": "0.4.5",
   "description": "HandCash Connect SDK",
   "main": "src/index.js",
   "types": "types/index.d.ts",
