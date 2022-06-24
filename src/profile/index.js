@@ -1,5 +1,5 @@
 const { PrivateKey } = require('bsv_legacy');
-const ECIES = require('bsv_legacy/ecies');
+const ECIES = require('bsv_legacy_ecies');
 
 class Profile {
    constructor(handCashConnectService) {
