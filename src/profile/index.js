@@ -1,5 +1,4 @@
-const { PrivateKey } = require('bsv');
-const ECIES = require('bsv/ecies');
+const { KeyPair, PrivKey, PubKey, Ecies } = require('bsv');
 
 class Profile {
    constructor(handCashConnectService) {
@@ -26,19 +25,18 @@ class Profile {
    }
 
    async getEncryptionKeypair() {
-      const privateKey = PrivateKey.fromRandom();
+      const privateKey = PrivKey.fromRandom();
+      const pubKey = PubKey.fromPrivKey(privateKey);
       const encryptedKeypair = await this.handCashConnectService.getEncryptionKeypair(
-         privateKey.publicKey.toString(),
+         pubKey.toString(),
       );
       return {
-         publicKey: ECIES()
-            .privateKey(privateKey)
-            .decrypt(Buffer.from(encryptedKeypair.encryptedPublicKeyHex, 'hex'))
+         publicKey: Ecies.electrumEncrypt(Buffer.from(encryptedKeypair.encryptedPublicKeyHex, 'hex'),
+			    pubKey, KeyPair.fromPrivKey(privateKey))
             .toString(),
-         privateKey: ECIES()
-            .privateKey(privateKey)
-            .decrypt(Buffer.from(encryptedKeypair.encryptedPrivateKeyHex, 'hex'))
-            .toString(),
+         privateKey: Ecies.electrumEncrypt(Buffer.from(encryptedKeypair.encryptedPrivateKeyHex, 'hex'),
+			    pubKey, KeyPair.fromPrivKey(privateKey))
+            .toString()
       };
    }
 

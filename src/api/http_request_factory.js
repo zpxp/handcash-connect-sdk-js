@@ -1,9 +1,8 @@
 const {
-   PublicKey,
-   PrivateKey,
-   Networks,
-   crypto,
+   PubKey,
+   PrivKey
 } = require('bsv');
+const crypto = require("crypto-js")
 
 const profileEndpoint = '/v1/connect/profile';
 const walletEndpoint = '/v1/connect/wallet';
@@ -14,7 +13,7 @@ class HttpRequestFactory {
       if (!authToken) {
          throw Error('Missing authToken');
       }
-      if (!PrivateKey.isValid(authToken, Networks.livenet.toString())) {
+      if (!PrivKey.fromBuffer(Buffer.from(authToken, 'hex')).validate()) {
          throw Error('Invalid authToken');
       }
       if (!appSecret) {
@@ -27,8 +26,8 @@ class HttpRequestFactory {
 
    _getSignedRequest(method, endpoint, body = {}, queryParameters = false) {
       const timestamp = new Date().toISOString();
-      const privateKey = PrivateKey.fromHex(this.authToken);
-      const publicKey = PublicKey.fromPoint(PublicKey.fromPrivateKey(privateKey).point, true);
+      const privateKey = PrivKey.fromBuffer(Buffer.from(this.authToken, 'hex'));
+      const publicKey = PubKey.fromPrivKey(privateKey);
       const serializedBody = JSON.stringify(body) === '{}' ? '' : JSON.stringify(body);
       const encodedEndpoint = HttpRequestFactory._getEncodedEndpoint(endpoint, queryParameters);
       const headers = {
