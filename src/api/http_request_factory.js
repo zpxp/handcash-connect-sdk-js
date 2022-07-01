@@ -17,9 +17,9 @@ class HttpRequestFactory {
       if (!PrivateKey.isValid(authToken, Networks.livenet.toString())) {
          throw Error('Invalid authToken');
       }
-      if (!appSecret) {
-         throw Error('Missing appSecret');
-      }
+      // if (!appSecret) {
+      //    throw Error('Missing appSecret');
+      // }
       this.authToken = authToken;
       this.appSecret = appSecret;
       this.baseApiEndpoint = baseApiEndpoint;
